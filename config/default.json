@@ -1,0 +1,10 @@
+{
+  "target_game_id": "123-456-789",
+  "slack_webhook_url": "https://hooks.slack.com/services/T012345678/B012345678/xxx",
+  "players": {
+    "pmattj": "U0000000",
+    "thorn": "U0000000",
+    "costanzafan": "U0000000",
+    "bertrandom": "U0000000"
+  }
+}
