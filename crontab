@@ -1,0 +1,2 @@
+## imperial-notifier
+*/5 * * * * cd /web/imperial-notifier && ENV=prod poetry run python3.12 -m check >> log/notifier.log 2>&1
