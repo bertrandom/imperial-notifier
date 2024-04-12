@@ -68,7 +68,7 @@ if r.status_code == 200:
                     file_path.write_text(json.dumps(game_state, indent=4, sort_keys=True))
 
                     latest_state = json.loads(game["latest_state"])
-                    current_nation = latest_state["currentNation"]
+                    current_nation = ":flag-" + latest_state["currentNation"].lower() + ':'
                     slack_user_id = players.get(game_state["current_player_name"], None)
 
                     if slack_user_id:
