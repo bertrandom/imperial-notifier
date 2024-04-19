@@ -1,4 +1,7 @@
 import json
+import os
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -71,9 +74,28 @@ if r.status_code == 200:
                     current_nation = ":flag-" + latest_state["currentNation"].lower() + ':'
                     slack_user_id = players.get(game_state["current_player_name"], None)
 
+                    subprocess.run(["./scrape.sh"], cwd=config["log_scraper_path"])
+
+                    with open(config["log_scraper_path"] + "/data/entries.json", 'r') as raw_state:
+                        entries = json.load(raw_state)
+
+                    text = ""
+
+                    if last_game_state["last_move_at"]:
+                        last_dt = datetime.fromisoformat(last_game_state["last_move_at"].rstrip('Z')).replace(tzinfo=timezone.utc)
+
+
+                        for entry in entries:
+                            entry_dt = datetime.fromisoformat(entry["timestamp"].rstrip('Z')).replace(tzinfo=timezone.utc)
+                            if entry_dt >= last_dt:
+                                text += entry["rendered_string"] + "\n"
+
                     if slack_user_id:
+
+                        text += f"It's <@{slack_user_id}>'s <https://www.playimperial.club/game/{TARGET_GAME_ID}|turn> for {current_nation}."
+
                         r = requests.post(WEBHOOK_URL, json={
-                            "text": f"It's <@{slack_user_id}>'s <https://www.playimperial.club/game/{TARGET_GAME_ID}|turn> for {current_nation}."
+                            "text": text
                         })
 
                 else:
