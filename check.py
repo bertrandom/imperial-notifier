@@ -87,7 +87,7 @@ if r.status_code == 200:
 
                         for entry in entries:
                             entry_dt = datetime.fromisoformat(entry["timestamp"].rstrip('Z')).replace(tzinfo=timezone.utc)
-                            if entry_dt >= last_dt:
+                            if entry_dt > last_dt:
                                 text += entry["rendered_string"] + "\n"
 
                     if slack_user_id:
