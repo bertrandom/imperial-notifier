@@ -39,7 +39,12 @@ if record:
         current_nation = ":flag-" + record['current_nation'].lower() + ':'
         slack_user_id = players.get(record['current_player_name'], None)
         if slack_user_id:
-            text = f"It's <@{slack_user_id}>'s <https://www.playimperial.club/game/{TARGET_GAME_ID}|turn> for {current_nation}."
+
+            if record['has_control']:
+                text = f"It's <@{slack_user_id}>'s <https://www.playimperial.club/game/{TARGET_GAME_ID}|turn> for {current_nation}."
+            else:
+                text = f"It's <@{slack_user_id}>'s <https://www.playimperial.club/game/{TARGET_GAME_ID}|turn>."
+
             print(text)
 
             r = requests.post(WEBHOOK_URL, json={
