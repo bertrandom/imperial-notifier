@@ -161,5 +161,6 @@ cython_debug/
 
 data/game_state.json
 config/development.json
+config/local.json
 config/prod.json
 log/notifier.log
